@@ -7,7 +7,7 @@ export class Search extends Component {
   onChange = (e) => {
     this.setState({ text: e.target.value });
   };
- 
+
   onSubmit = (e) => {
     e.preventDefault();
     this.props.searchUsers(this.state.text);
@@ -30,6 +30,14 @@ export class Search extends Component {
             value='Search'
             className='btn btn-dark btn-block'
           />
+          {this.props.showClear && (
+            <button
+              className='btn btn-light btn-block'
+              onClick={this.props.clearUsers}
+            >
+              Clear
+            </button>
+          )}
         </form>
       </div>
     );
