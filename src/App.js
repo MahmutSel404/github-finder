@@ -14,7 +14,7 @@ const App = () => {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
-
+  const [repos, setRepos] = useState([]);
   //Search Github users
   const searchUsers = async (text) => {
     setLoading(true);
@@ -34,7 +34,16 @@ const App = () => {
     );
 
     setUser(res.data);
-    console.log(res.data)
+    setLoading(false);
+  };
+  //Get users repos
+  const getUserRepos = async (username) => {
+    setLoading(true);
+    const res = await axios.get(
+      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+
+    setRepos(res.data);
     setLoading(false);
   };
   //Clear users
@@ -44,7 +53,7 @@ const App = () => {
   };
   //Set Alert
   const showAlert = (msg, type) => {
-    setAlert({msg,type});
+    setAlert({ msg, type });
     setTimeout(() => setAlert(null), 5000);
   };
 
@@ -79,7 +88,9 @@ const App = () => {
                 <User
                   {...props}
                   getUser={getUser}
+                  getUserRepos={getUserRepos}
                   user={user}
+                  repos={repos}
                   loading={loading}
                 />
               )}

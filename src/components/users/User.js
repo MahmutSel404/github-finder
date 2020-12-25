@@ -1,10 +1,12 @@
 import React, { Fragment, useEffect } from 'react';
 import Spinner from '../layout/Spinner';
+import Repos from '../repos/Repos';
 import { Link } from 'react-router-dom';
 
-const User = ({ user, loading, getUser, match }) => {
+const User = ({ user, loading, getUser, match, repos, getUserRepos }) => {
   useEffect(() => {
     getUser(match.params.login);
+    getUserRepos(match.params.login)
     //eslint-disable-next-line
   }, []);
 
@@ -24,7 +26,7 @@ const User = ({ user, loading, getUser, match }) => {
     hireable,
   } = user;
 
-  if (loading) return <Spinner />;
+  if (loading) return <Spinner />;  
 
   return (
     <Fragment>
@@ -89,6 +91,7 @@ const User = ({ user, loading, getUser, match }) => {
         <div className='badge badge-light'> Public Repos:{public_repos}</div>
         <div className='badge badge-dark'> Public Gists:{public_gists}</div>
       </div>
+      <Repos repos={repos} />
     </Fragment>
   );
 };
